@@ -48,13 +48,29 @@ async function fetchAPIData(endpoint) {
 	const API_KEY = 'd7cc800b22646e0dddd06a84a99aa8a0';
 	const API_URL = 'https://api.themoviedb.org/3/';
 
+	// show the spinner before the request
+	showSpinner();
+
 	const response = await fetch(
 		`${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`
 	);
 
 	const data = await response.json();
 
+	// hide spinner once data is fetched
+	hideSpinner();
+
 	return data;
+}
+
+// show a spinner while fetching data
+function showSpinner() {
+	document.querySelector('.spinner').classList.add('show');
+}
+
+// hide the spinner once data is fetched
+function hideSpinner() {
+	document.querySelector('.spinner').classList.remove('show');
 }
 
 // highlight active link
