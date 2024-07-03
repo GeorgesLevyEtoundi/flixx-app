@@ -43,6 +43,45 @@ async function displayPopularMovies() {
 	});
 }
 
+// display popular movies
+async function displayPopularTVShows() {
+	const { results } = await fetchAPIData('tv/popular');
+
+	results.forEach(tvShow => {
+		const div = document.createElement('div');
+		div.classList.add('card');
+		div.innerHTML = `
+			<a href="tv-details.html?id=${tvShow.id}">
+				${
+					tvShow.poster_path
+						? `
+			<img
+					src="https://image.tmdb.org/t/p/w500${tvShow.poster_path}"
+					class="card-img-top"
+					alt="${tvShow.name}"
+				/>
+			`
+						: `
+			<img
+					src="images/no-image.jpg"
+					class="card-img-top"
+					alt="${tvShow.name}"
+				/>
+			`
+				}
+			</a>
+			<div class="card-body">
+				<h5 class="card-title">${tvShow.name}</h5>
+				<p class="card-text">
+					<small class="text-muted">${tvShow.first_air_date}</small>
+				</p>
+			</div>
+		`;
+
+		document.querySelector('#popular-shows').appendChild(div);
+	});
+}
+
 // fetch data from TMDB API
 async function fetchAPIData(endpoint) {
 	const API_KEY = 'd7cc800b22646e0dddd06a84a99aa8a0';
@@ -92,7 +131,7 @@ function init() {
 			displayPopularMovies();
 			break;
 		case '/shows.html':
-			console.log('Shows');
+			displayPopularTVShows();
 			break;
 		case '/movie-details.html':
 			console.log('Movie details');
